@@ -1,11 +1,14 @@
 
-def bubble_sort(elems : list[any]):
+from src.enums.sorting_order import SortingOrder, is_ordered
+
+def bubble_sort(elems : list[any], sorting_order = SortingOrder.Ascending, comparison = lambda a, b : a - b) -> list[any]:
   result = elems.copy()
-  should_continue = True
-  while should_continue:
-    should_continue = False
-    for i in range(1, len(result)):
-      if result[i] < result[i - 1]:
-        result[i], result[i - 1] = result[i - 1], result[i]
-        should_continue = True
+  ordered = is_ordered(sorting_order)  
+  for i in range(len(result)):
+    for j in range(i, len(result)):
+      comp_result = comparison(result[i], result[j])
+      if not ordered(comp_result):
+        result[i], result[j] = result[j], result[i]
+
   return result
+
